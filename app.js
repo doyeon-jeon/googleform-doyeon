@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 });
 
 
-app.post("/image/get", async (req, res) => {
-	const url = "https://www.ringleplus.com";
-	res.json(url);
-});
+// app.post("/image/get", async (req, res) => {
+// 	const url = "https://www.ringleplus.com";
+// 	res.json(url);
+// });
