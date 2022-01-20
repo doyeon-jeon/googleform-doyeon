@@ -1,15 +1,17 @@
 //import { rgbToHex } from '@mui/material';
+import axios from 'axios';
 import { useState } from 'react';
 import {QuestionInterface} from '../interfaces/questions';
+
 
 // http://localhost:3000/form/googleform
 
 // etc 수정, 디자인
 
-export default function Create() {
-  const [title, setTitle] = useState("");
-  const [subtitle, setsubTitle] = useState("");
 
+export default function Create() {
+  //const [title, setTitle] = useState("");
+  //const [subtitle, setsubTitle] = useState("");
   const [questions, setQuestions] = useState([
     {
       qType: "radio",
@@ -48,6 +50,22 @@ export default function Create() {
       options: [] 
     }
   ])
+  
+  const [form, setForm] = useState({
+    title : "form-title",
+    sub : "form-sub",
+    question : questions,
+})
+  const updateFormTitle = (text) => {
+    const cp={...form}
+    cp.title = text 
+    setForm(cp)
+}
+const updateFormsub = (text) => {
+  const cp={...form}
+  cp.sub = text 
+  setForm(cp)
+}
 
   const updateQuestionType = (index, qType) => {
     const cp = [...questions]
@@ -84,11 +102,21 @@ export default function Create() {
     cp[index].options.push({title: "etc", desc: "etc"})
     setQuestions(cp);
   }
+ 
 
+  const submit = () => {
+    axios.post("http://localhost:8000",form)
+    .then(function(response){
+    console.log(response);
+    }).catch(function(error){ 
+        console.log(error)
+    });
+    location.href='/form/submit'
+  }
   return (
     <div style={{ backgroundColor:"rgba(270,230,270)" }}>
-      <textarea value={title} onChange={e => setTitle(e.target.value)}/><br />
-      <textarea value={subtitle} onChange={e => setsubTitle(e.target.value)}/>
+      <input type='textarea' value={form.title} onChange={e =>updateFormTitle(e.target.value)} /><br />
+      <textarea value={form.sub} onChange={e =>updateFormsub(e.target.value)}/>
       <br/><br/>
       {questions.map((question, index) => {
         return <Question question={question} //key
@@ -103,6 +131,7 @@ export default function Create() {
         />
       })
       }
+      <button onClick={e => submit()} style={{marginBottom:50}}>Submit</button>
     </div>
   )
 }
