@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import {QuestionInterface} from '../interfaces/questionInterface';
 
-// http://54.145.10.91:8000/
+// http://54.145.10.91:8000/googleform
 
 // etc 수정, 디자인
 
